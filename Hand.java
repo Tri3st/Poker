@@ -1,9 +1,10 @@
+
 public class Hand {
   private Card[] cards;
   private int sameCards;
   private int sameSuit;
-  private int pair;
-  private int twopair;
+  private boolean pair;
+  private boolean twopair;
   private boolean toak;
   private boolean foak;
   private boolean fh;
@@ -61,16 +62,26 @@ public class Hand {
   }
   
   private boolean containsTwice(int x){
-    boolean 
+    boolean succes = false; 
+    int index1 = -1;
+    int index2 = -1;
     for (int x1=0; x1<amnt.length;x1++) {
-      if (amnt[x1]==2)
+      if (index1 == -1 && amnt[x1]==2) index1 = x1;
+      if (amnt[x1]==2 && index1 != -1) {
+        index2 = x1;
+        succes = true;
+      }
     }
+    return succes;
   }
   
   private void printHand(){
     if (foak) System.out.println("4 of a kind");
     if (toak) System.out.println("3 of a kind");
     if (fh) System.out.println("full house");
+    System.out.println("pair : "+ pair);
+    System.out.println("2 pair : "+ twopair);
+    
   }
   
   public String toString(){
