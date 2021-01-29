@@ -1,8 +1,7 @@
-
+import java.util.Arrays;
 public class Hand {
   private Card[] cards;
-  //private int sameCards;
-  //private int sameSuit;
+  private int points;
   private boolean pair;
   private boolean twopair;
   private boolean toak;
@@ -44,7 +43,7 @@ public class Hand {
           he++;
           break;
         }
-        int num = cards[i].getValue()-2;
+        int num = (cards[i].getValue())-2;
         amnt[num]++;
       }
       if (contains(4)) foak = true;
@@ -53,14 +52,27 @@ public class Hand {
       if (containsTwice()) twopair = true;
       if (contains(2)) pair = true;
       if(sp==5 || cl==5 || di==5 || he==5) flush = true;
+      if(isStraight()) straight = true;
+      if(straight && flush) strflush = true;
   } 
 
   private boolean isStraight(){
+    boolean succes = true;
     if (contains(2) || contains(3) || contains(4)) return false;
     else {
-
+      
+      int[] c = new int[5];
+      for(int i = 0; i<5;i++){
+        c[i] = cards[i].getValue();
+      }
+      Arrays.sort(c);
+      for (int i=1; i <5; i++) {
+        if (c[i]-c[i-1]!=1) succes = false;
+      }
+      if(c[4]==14 && succes) royflush = true;
     }
-    
+
+    return succes;
   }
 
   private boolean contains(int x){
@@ -91,7 +103,9 @@ public class Hand {
     System.out.println("pair : "+ pair);
     System.out.println("2 pair : "+ twopair);
     System.out.println("flush : " + flush);
-    
+    System.out.println("straight : " + straight);
+    System.out.println("royal flush : " + royflush);
+    System.out.println("=======");
   }
   
   public String toString(){
